@@ -6,7 +6,6 @@ module.exports = (api, opts, rootOpts) => {
     'express': '^4.16.3',
     'helmet': '^3.12.0',
     'helmet-csp': '^2.7.0',
-    'node-log-common': '^0.1.6'
   }
   const devDependencies = {
     'nodemon': '^1.17.1'
@@ -18,13 +17,6 @@ module.exports = (api, opts, rootOpts) => {
     'serve-server': 'node dist-server',
     // TODO: Append this into the existing build script
     'build-server': 'rm -rf build && mkdir build && babel -d dist-server server -s'
-  }
-
-  // Add the middleware dependency only if the user requests it
-  if (opts.useMiddleware) {
-    Object.assign(dependencies, {
-      'bigbank-service-controllers': '^0.1.0'
-    })
   }
 
   const pkg = {
@@ -41,22 +33,22 @@ module.exports = (api, opts, rootOpts) => {
     api.render('./templates/default', { ...opts })
 
     {
-      const filePath = api.resolve('./server/index.js')
+      // const filePath = api.resolve('./server/index.js')
 
       // Register the middleware only if the user requests it
-      if (opts.useMiddleware) {
-        const middlewareImport = `\nimport { ${opts.middlewareChoice} } as ApiRouter } from 'service-controllers'\n`
-        const routerInstallation = `
-  // Load API routes
-  app.use('/api', ApiRouter())
-  `
+  //     if (opts.useMiddleware) {
+  //       const middlewareImport = `\nimport { ${opts.middlewareChoice} } as ApiRouter } from 'service-controllers'\n`
+  //       const routerInstallation = `
+  // // Load API routes
+  // app.use('/api', ApiRouter())
+  // `
 
-        insert(middlewareImport, filePath, /^import/)
-        insert(routerInstallation, filePath, middlewareInstallationLine)
-      }
+  //       insert(middlewareImport, filePath, /^import/)
+  //       insert(routerInstallation, filePath, middlewareInstallationLine)
+  //     }
 
       // Remove the middleware placeholder comment
-      remove(filePath, middlewareInstallationLine)
+      // remove(filePath, middlewareInstallationLine)
     }
 
   })

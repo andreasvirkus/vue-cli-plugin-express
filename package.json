@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+"
+    "url": "git+https://github.com/andreasvirkus/vue-cli-plugin-express.git"
   },
   "keywords": [
     "vue-cli",
@@ -13,7 +13,10 @@
     "plugin",
     "express"
   ],
-  "author": "",
+  "author": "Andreas Virkus <write@andreasvirkus.me> (https://andreasvirkus.me)",
   "license": "ISC",
-  "bugs": ""
+  "bugs": {
+    "url": "https://github.com/andreasvirkus/vue-cli-plugin-express/issues",
+    "email": "write@andreasvirkus.me"
+  }
 }

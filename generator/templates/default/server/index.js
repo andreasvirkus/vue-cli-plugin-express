@@ -2,15 +2,16 @@
 import csp from 'helmet-csp'
 import path from 'path'
 import helmet from 'helmet'
-import logger from 'node-log-common'
+import logger from './helpers/logger'
 import express from 'express'
 import Session from 'express-session'
 import compress from 'compression'
 import bodyParser from 'body-parser'
-import SessionStore from 'session-file-store'
 import directives from './helpers/securityPolicies'
+import SessionStore from 'session-file-store'
 
 const dev  = process.env.NODE_ENV != 'production'
+// Make sure port matches your Vue proxy
 const port = process.env.PORT || 4000
 const app = express()
 const index = path.join(__dirname, '../public/index.html')
@@ -37,7 +38,6 @@ if (!dev) {
 app.use(bodyParser.json({ limit: Config.getFormattedUploadSizeLimit() }))
 app.use(express.static(__dirname))
 app.use(express.static(path.join(__dirname, '../public/'), { maxage: '12h' }))
-app.use(express.static(path.join(__dirname, '../node_modules/bigbank-interface-components/dist/'), { maxage: '12h' }))
 
 // Set up requests session
 const expirationPromptDuration = Config.getExpirationPromptDuration()

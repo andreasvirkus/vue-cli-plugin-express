@@ -39,7 +39,7 @@ app.use(bodyParser.json({ limit: Config.getFormattedUploadSizeLimit() }))
 app.use(express.static(__dirname))
 app.use(express.static(path.join(__dirname, '../public/'), { maxage: '12h' }))
 
-// Set up requests session
+// Set up requests sessi  on
 const expirationPromptDuration = Config.getExpirationPromptDuration()
 const maxAge = parseInt(Config.getSessionTimeout(), 10) + expirationPromptDuration
 const session = Session({

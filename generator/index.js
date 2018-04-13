@@ -26,31 +26,25 @@ module.exports = (api, opts, rootOpts) => {
   }
 
   api.extendPackage(pkg)
+  api.render('./templates/default', { ...opts })
 
   api.onCreateComplete(() => {
     const middlewareInstallationLine = /^\/\/ #|middleware|#/
+    const filePath = api.resolve('./server/index.js')
 
-    api.render('./templates/default', { ...opts })
+    // Register the middleware only if the user requests it
+    if (opts.useMiddleware) {
+      const middlewareImport = `\nimport { ${opts.middlewareChoice} } as ApiRouter } from 'service-controllers'\n`
+      const routerInstallation = `
+// Load API routes
+app.use('/api', ApiRouter())\n`
 
-    {
-      // const filePath = api.resolve('./server/index.js')
-
-      // Register the middleware only if the user requests it
-  //     if (opts.useMiddleware) {
-  //       const middlewareImport = `\nimport { ${opts.middlewareChoice} } as ApiRouter } from 'service-controllers'\n`
-  //       const routerInstallation = `
-  // // Load API routes
-  // app.use('/api', ApiRouter())
-  // `
-
-  //       insert(middlewareImport, filePath, /^import/)
-  //       insert(routerInstallation, filePath, middlewareInstallationLine)
-  //     }
-
-      // Remove the middleware placeholder comment
-      // remove(filePath, middlewareInstallationLine)
+      insert(middlewareImport, filePath, /^import/)
+      insert(routerInstallation, filePath, middlewareInstallationLine)
     }
 
+    // Remove the middleware placeholder comment
+    remove(filePath, middlewareInstallationLine)
   })
 
 }
